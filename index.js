@@ -8,21 +8,29 @@ const validUrl = require('valid-url');
 var read = util.promisify(fs.readFile);
 let name = './lorem.md'
 
-//funcion que valida los links
+/*funcion que valida los links creado por mi
 function validateLinks(link){
   return new Promise ((resolve,reject) => {
     fetch(link)
     .then(res =>{
       if (res.status===200){
-        return true;
+        return resolve(true);
       }else {
-        return false;
+        return resolve(false);
       }
     })
     .catch(error => {
       console.log('error', error);
     })
   })
+}*/
+//funcion que valida los kinks usano libreria
+function validateLinks(link){
+  if (validUrl.isUri(link)){
+    return true;
+} else {
+    return false;
+}
 }
 //COMPORTAMIENTO POR DEFECTO
 read(name)
@@ -54,7 +62,15 @@ read(name)
   })
   .then(res => {
     let links = markdownLinkExtractor(res);
-    
+    links.forEach(function(link){
+      let validate=validateLinks(link);
+      console.log(validate);
+      if (validate){
+        console.log(link + ' its ok')
+      }else{
+        console.log(link + ' its fail')
+      }
+      })
   })
   .catch(error => {
     console.log('error', error);
