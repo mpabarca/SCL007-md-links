@@ -39,7 +39,36 @@ mdLinks: async (pathUser , option) => {
       })
       .catch(console.error)
   },
-validate: (link) =>{
+
+validate: async (pathUser , option) => {
+  let route = path.resolve(pathUser);
+    var read = util.promisify(fs.readFile);
+    let readMarkdown = (await read(route)).toString();
+    let links = markdownLinkExtractor(readMarkdown);
+    let arrayLink= [];
+    links.forEach(function(link){
+      let arrayFetch = fetch(link)
+        .then((res) => {
+          let objectLink = {
+            href: link,
+            status:res.status
+          }
+          return objectLink;
+        })
+        .catch((error) =>{
+          let fail = {
+            hrefLink: link,
+            statusLink: 'error'
+          }
+        })
+      
+      arrayLink.push(arrayFetch);
+    })
+    Promise.all(arrayLink)
+      .then((values)=>{
+          console.log(values)
+      })
+      .catch(console.error)
     
 }
 
