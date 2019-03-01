@@ -4,29 +4,29 @@ const util = require('util');
 const path = require('path');
 const markdownLinkExtractor = require('markdown-link-extractor');
 const process = require('process');
-let documentUser = process.argv[2];
+const documentUser = process.argv[2];
 
 //creacion de modulo
-let mdLinks = (pathRuta) => {
+let mdLinks = async (pathRuta) => {
   let ruta = path.resolve(documentUser);
   var read = util.promisify(fs.readFile);
-  let readMarkdown = read(ruta).toString();
+  let readMarkdown = (await read(ruta)).toString();
   let links = markdownLinkExtractor(readMarkdown);
   let arrayLink= [];
   links.forEach(function(link){
     let arrayFetch = fetch(link)
       .then((res) => {
         let objectLink = {
-          href: `${res.url}`,
-          text: `${res.text}`,
-          file: pathRuta,
-          status:`${res.status}`
+          href: link,
+          text: 'texto',
+          file: ruta,
+          status:res.status
         }
         return objectLink;
       })
       .catch((error) =>{
         let fail = {
-          hrefLink: `${res.url}`,
+          hrefLink: link,
           statusLink: 'error'
         }
       })
@@ -34,8 +34,8 @@ let mdLinks = (pathRuta) => {
     arrayLink.push(arrayFetch);
   })
   Promise.all(arrayLink)
-    .then((lineLinks)=>{
-        console.log(lineLinks)
+    .then((values)=>{
+        console.log(values)
     })
     .catch(console.error)
 
