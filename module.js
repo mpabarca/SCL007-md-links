@@ -20,7 +20,6 @@ mdLinks: async (pathUser , option) => {
             href: link,
             text: 'texto',
             file: route,
-            status:res.status
           }
           return objectLink;
         })
