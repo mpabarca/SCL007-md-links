@@ -2,8 +2,7 @@ const process = require('process');
 const readline = require('readline');
 const mdLink = require ('./module.js');
 
-const documentUser = process.argv[2];
-
+//Creacion interfaz e interaccion usuario-modulo
 if (require.main === module) {
   console.log('Ingresar archivo o directorio');
 
@@ -11,12 +10,10 @@ if (require.main === module) {
     input: process.stdin,
     output: process.stdout
   })
+
   rl.on('line', (input) => {
     console.log(`Received: ${input}`);
-    mdLink.mdlinks(path, option)
-      .then((res) => {
-      console.log(res); 
-    })
+    mdLink.mdLinks(input, validate=false)
     .catch((error) =>{
        console.log(error);
     });

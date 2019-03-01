@@ -7,8 +7,8 @@ const markdownLinkExtractor = require('markdown-link-extractor');
 //creacion de modulo
 module.exports = {
 
-mdLinks: async (pathRuta) => {
-    let route = path.resolve(documentUser);
+mdLinks: async (pathUser , option) => {
+    let route = path.resolve(pathUser);
     var read = util.promisify(fs.readFile);
     let readMarkdown = (await read(route)).toString();
     let links = markdownLinkExtractor(readMarkdown);
