@@ -8,9 +8,9 @@ const markdownLinkExtractor = require('markdown-link-extractor');
 module.exports = {
 
 mdLinks: async (pathRuta) => {
-    let ruta = path.resolve(documentUser);
+    let route = path.resolve(documentUser);
     var read = util.promisify(fs.readFile);
-    let readMarkdown = (await read(ruta)).toString();
+    let readMarkdown = (await read(route)).toString();
     let links = markdownLinkExtractor(readMarkdown);
     let arrayLink= [];
     links.forEach(function(link){
@@ -19,7 +19,7 @@ mdLinks: async (pathRuta) => {
           let objectLink = {
             href: link,
             text: 'texto',
-            file: ruta,
+            file: route,
             status:res.status
           }
           return objectLink;
