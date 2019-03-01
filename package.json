@@ -7,7 +7,7 @@
     "node-fetch": "^2.3.0",
     "valid-url": "^1.0.9"
   },
-  "description": "[Markdown](https://es.wikipedia.org/wiki/Markdown) es un lenguaje de marcado\r ligero muy popular entre developers. Es usado en muchísimas plataformas que\r manejan texto plano (GitHub, foros, blogs, ...), y es muy común\r encontrar varios archivos en ese formato en cualquier tipo de repositorio\r (empezando por el tradicional `README.md`).",
+  "description": "Librería el cual al ingresar un archivo markdown te retorna los links que aparecen en éste",
   "main": "index.js",
   "directories": {
     "test": "test"

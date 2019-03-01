@@ -3,12 +3,47 @@ const fetch = require('node-fetch');
 const util = require('util');
 const path = require('path');
 const markdownLinkExtractor = require('markdown-link-extractor');
-const validUrl = require('valid-url');
+const process = require('process');
+let documentUser = process.argv[2];
 
-var read = util.promisify(fs.readFile);
-let name = './lorem.md'
+//creacion de modulo
+let mdLinks = (pathRuta) => {
+  let ruta = path.resolve(documentUser);
+  var read = util.promisify(fs.readFile);
+  let readMarkdown = read(ruta).toString();
+  let links = markdownLinkExtractor(readMarkdown);
+  let arrayLink= [];
+  links.forEach(function(link){
+    let arrayFetch = fetch(link)
+      .then((res) => {
+        let objectLink = {
+          href: `${res.url}`,
+          text: `${res.text}`,
+          file: pathRuta,
+          status:`${res.status}`
+        }
+        return objectLink;
+      })
+      .catch((error) =>{
+        let fail = {
+          hrefLink: `${res.url}`,
+          statusLink: 'error'
+        }
+      })
+    
+    arrayLink.push(arrayFetch);
+  })
+  Promise.all(arrayLink)
+    .then((lineLinks)=>{
+        console.log(lineLinks)
+    })
+    .catch(console.error)
 
-/*funcion que valida los links creado por mi
+}
+mdLinks();
+
+/*
+//funcion que valida los links creado por mi
 function validateLinks(link){
   return new Promise ((resolve,reject) => {
     fetch(link)
@@ -23,7 +58,7 @@ function validateLinks(link){
       console.log('error', error);
     })
   })
-}*/
+}
 //funcion que valida los kinks usano libreria
 function validateLinks(link){
   if (validUrl.isUri(link)){
@@ -75,3 +110,4 @@ read(name)
   .catch(error => {
     console.log('error', error);
   })
+*/
