@@ -56,7 +56,13 @@ validate: async (pathUser) => {
   })
   Promise.all(validateLink)
     .then((values)=>{
-        console.log(values)
+      for (let i=0;i<values.length;i++){
+        if ((values[i].status)===200){
+          console.log((values[i].href)+' 200 --> OK!')
+        }else if ((values[i].status)===404){
+          console.log((values[i].href)+' 404 --> FAIL!')
+        }
+      }
     })
     .catch(console.error)
     
