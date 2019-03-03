@@ -1,6 +1,7 @@
 const process = require('process');
 const readline = require('readline');
 const mdLink = require ('./main-module.js');
+const helper = require('./helper-module.js');
 
 //Creacion interfaz e interaccion usuario-modulo
 if (require.main === module) {
@@ -13,12 +14,16 @@ if (require.main === module) {
 
   rl.on('line', (input) => {
     console.log(`Received: ${input}`);
-    let answer = mdLink.is_dir(input);
+
+    let answer = helper.is_dir(input);
     console.log(answer);
-    mdLink.mdLinks(input, validate=false)
+
+/*    mdLink.mdLinks(input)
     .catch((error) =>{
        console.log(error);
     });
+*/
+    mdLink.stats(input);
     rl.close()
   });
 }
