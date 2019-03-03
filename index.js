@@ -13,16 +13,51 @@ if (require.main === module) {
   })
 
   rl.on('line', (input) => {
-    console.log(`Received: ${input}`);
-
     let answer = helper.is_dir(input);
     console.log(answer);
-    mdLink.mdLinks(input)
-    .catch((error) =>{
-       console.log(error);
-    });
-    mdLink.validate(input);
-    mdLink.stats(input);
+    if (answer === false){
+      let received = input.split('--');
+      if (received.length === 1){
+        mdLink.mdLinks(input)
+        .catch((error) =>{
+          console.log(error);
+        });
+      }else if (received[1]==='validate'){
+        received[0] = received[0].slice(0, -1);
+        mdLink.validate(received[0])
+        .catch((error) =>{
+          console.log(error);
+        });
+      }else if (received[1]==='stats'){
+        received[0] = received[0].slice(0, -1);
+        mdLink.stats(received[0])
+        .catch((error) =>{
+          console.log(error);
+        });
+      }
+    }else{
+      /* FUNCION RECURSIVA
+      let received = input.split('--');
+      if (received.length === 1){
+        mdLink.mdLinks(input)
+        .catch((error) =>{
+          console.log(error);
+        });
+      }else if (received[1]==='validate'){
+        received[0] = received[0].slice(0, -1);
+        mdLink.validate(received[0])
+        .catch((error) =>{
+          console.log(error);
+        });
+      }else if (received[1]==='stats'){
+        received[0] = received[0].slice(0, -1);
+        mdLink.stats(received[0])
+        .catch((error) =>{
+          console.log(error);
+        });
+      }
+      */
+    }
     rl.close()
   });
 }
