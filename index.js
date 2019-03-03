@@ -17,12 +17,11 @@ if (require.main === module) {
 
     let answer = helper.is_dir(input);
     console.log(answer);
-
-/*    mdLink.mdLinks(input)
+    mdLink.mdLinks(input)
     .catch((error) =>{
        console.log(error);
     });
-*/
+    mdLink.validate(input);
     mdLink.stats(input);
     rl.close()
   });

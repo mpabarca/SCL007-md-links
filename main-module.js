@@ -1,11 +1,13 @@
 const fetch = require('node-fetch');
 const helper = require('./helper-module.js');
+const path = require('path');
 
 //creacion de modulo
 module.exports = {
 
 mdLinks: async (pathUser) => {
-  let links = helper.readExtractor(pathUser);
+  let links = await (helper.readExtractor(pathUser));
+  let route = path.resolve(pathUser);
   let arrayLink= [];
   links.forEach(function(link){
     let arrayFetch = fetch(link)
@@ -33,7 +35,7 @@ mdLinks: async (pathUser) => {
   },
 
 validate: async (pathUser) => {
-  let links = helper.readExtractor(pathUser);
+  let links = await (helper.readExtractor(pathUser));
   let validateLink= [];
   links.forEach(function(link){
     let arrayFetch = fetch(link)
@@ -42,7 +44,6 @@ validate: async (pathUser) => {
           href: link,
           status:res.status
         }
-        console.log(objectStatus);
         return objectStatus;
       })
       .catch((error) =>{
