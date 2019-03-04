@@ -2,7 +2,9 @@
   "name": "md-links",
   "version": "0.1.0",
   "dependencies": {
+    "chai": "^4.2.0",
     "eslint-config-airbnb": "^17.1.0",
+    "jest": "^24.1.0",
     "markdown-link-extractor": "^1.2.0",
     "node-fetch": "^2.3.0",
     "valid-url": "^1.0.9"

@@ -1,64 +1,47 @@
 const process = require('process');
 const readline = require('readline');
-const mdLink = require ('./lib/main-module.js');
+const mainModule = require ('./lib/main-module.js');
 const helper = require('./lib/helper-module.js');
 
-//Creacion interfaz e interaccion usuario-modulo
-if (require.main === module) {
-  console.log('Ingresar archivo o directorio');
+var mdLinks=(function(){
 
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
+  //Creacion interfaz e interaccion usuario-modulo
+  if (require.main === module) {
+    console.log('Ingresar archivo o directorio');
 
-  rl.on('line', (input) => {
-    let answer = helper.is_dir(input);
-    console.log(answer);
-    if (answer === false){
-      let received = input.split('--');
-      if (received.length === 1){
-        mdLink.mdLinks(input)
-        .catch((error) =>{
-          console.log(error);
-        });
-      }else if (received[1]==='validate'){
-        received[0] = received[0].slice(0, -1);
-        mdLink.validate(received[0])
-        .catch((error) =>{
-          console.log(error);
-        });
-      }else if (received[1]==='stats'){
-        received[0] = received[0].slice(0, -1);
-        mdLink.stats(received[0])
-        .catch((error) =>{
-          console.log(error);
-        });
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    })
+
+    rl.on('line', (input) => {
+      let answer = helper.is_dir(input);
+      if (answer === false){
+        let received = input.split('--');
+        if (received.length === 1){
+          mainModule.mdLink(input)
+          .catch((error) =>{
+            console.log(error);
+          });
+        }else if (received[1]==='validate'){
+          received[0] = received[0].slice(0, -1);
+          mainModule.validate(received[0])
+          .catch((error) =>{
+            console.log(error);
+          });
+        }else if (received[1]==='stats'){
+          received[0] = received[0].slice(0, -1);
+          mainModule.stats(received[0])
+          .catch((error) =>{
+            console.log(error);
+          });
+        }
+      }else{
+        /* FUNCION RECURSIVA */
       }
-    }else{
-      /* FUNCION RECURSIVA
-      let received = input.split('--');
-      if (received.length === 1){
-        mdLink.mdLinks(input)
-        .catch((error) =>{
-          console.log(error);
-        });
-      }else if (received[1]==='validate'){
-        received[0] = received[0].slice(0, -1);
-        mdLink.validate(received[0])
-        .catch((error) =>{
-          console.log(error);
-        });
-      }else if (received[1]==='stats'){
-        received[0] = received[0].slice(0, -1);
-        mdLink.stats(received[0])
-        .catch((error) =>{
-          console.log(error);
-        });
-      }
-      */
-    }
-    rl.close()
-  });
-}
-
+      rl.close()
+    });
+  }
+})
+ 
+exports.mdLinks = mdLinks;
