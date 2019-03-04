@@ -1,7 +1,7 @@
 const process = require('process');
 const readline = require('readline');
-const mdLink = require ('./main-module.js');
-const helper = require('./helper-module.js');
+const mdLink = require ('./lib/main-module.js');
+const helper = require('./lib/helper-module.js');
 
 //Creacion interfaz e interaccion usuario-modulo
 if (require.main === module) {
